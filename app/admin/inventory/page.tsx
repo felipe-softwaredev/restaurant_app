@@ -22,6 +22,20 @@ export default function AdminInventoryPage() {
     min_stock: 0,
   })
 
+  const fetchInventory = async (isInitialLoad = false) => {
+    const supabase = getSupabaseClient()
+    const { data, error } = await supabase.from("inventory_items").select("*").order("name")
+
+    if (error) {
+      console.error("Error fetching inventory:", error)
+    } else {
+      setItems(data || [])
+    }
+    if (isInitialLoad) {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     const checkAuth = async () => {
       const supabase = getSupabaseClient()
@@ -34,18 +48,22 @@ export default function AdminInventoryPage() {
         return
       }
 
-      const { data, error } = await supabase.from("inventory_items").select("*").order("name")
-
-      if (error) {
-        console.error("Error fetching inventory:", error)
-      } else {
-        setItems(data || [])
-      }
-      setLoading(false)
+      await fetchInventory(true)
     }
 
     checkAuth()
   }, [router])
+
+  // Poll every 5 seconds to auto-refresh inventory after order completion
+  useEffect(() => {
+    if (loading) return
+
+    const pollInterval = setInterval(() => {
+      fetchInventory(false)
+    }, 5000)
+
+    return () => clearInterval(pollInterval)
+  }, [loading])
 
   const addItem = async () => {
     if (!formData.name.trim()) {
@@ -59,7 +77,7 @@ export default function AdminInventoryPage() {
     if (error) {
       console.error("Error adding item:", error)
     } else {
-      setItems([...items, data[0]])
+      await fetchInventory()
       setFormData({ name: "", quantity: 0, unit: "", min_stock: 0 })
       setShowForm(false)
     }
@@ -72,7 +90,7 @@ export default function AdminInventoryPage() {
     if (error) {
       console.error("Error updating item:", error)
     } else {
-      setItems(items.map((item) => (item.id === id ? { ...item, ...updates } : item)))
+      await fetchInventory()
     }
   }
 
@@ -85,7 +103,7 @@ export default function AdminInventoryPage() {
     if (error) {
       console.error("Error deleting item:", error)
     } else {
-      setItems(items.filter((item) => item.id !== id))
+      await fetchInventory()
     }
   }
 

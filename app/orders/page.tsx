@@ -124,26 +124,30 @@ export default function OrdersPage() {
     fetchOrders(phone);
   };
 
-  // Calculate countdown for approved orders
+  // Calculate countdown for approved orders (only starts after approval)
   useEffect(() => {
-    const updateCountdowns = () => {
+    const updateCountdowns = async () => {
       const newCountdowns: Record<string, string> = {};
+      const ordersToComplete: string[] = [];
 
       orders.forEach((order) => {
         if (
           order.status === 'approved' &&
           order.preparation_time &&
-          order.created_at
+          order.updated_at
         ) {
           const now = new Date();
-          const created = new Date(order.created_at);
+          // Use updated_at as the approval time (when order was approved)
+          const approvedAt = new Date(order.updated_at);
           const readyTime = new Date(
-            created.getTime() + order.preparation_time * 60 * 1000
+            approvedAt.getTime() + order.preparation_time * 60 * 1000
           );
           const diff = readyTime.getTime() - now.getTime();
 
           if (diff <= 0) {
-            newCountdowns[order.id] = 'Order should be ready now!';
+            // Time is up - mark for auto-completion
+            newCountdowns[order.id] = 'Order ready! Marking as completed...';
+            ordersToComplete.push(order.id);
           } else {
             const minutes = Math.floor(diff / 60000);
             const seconds = Math.floor((diff % 60000) / 1000);
@@ -153,6 +157,21 @@ export default function OrdersPage() {
       });
 
       setCountdowns(newCountdowns);
+
+      // Auto-complete orders that are ready
+      if (ordersToComplete.length > 0) {
+        const supabase = getSupabaseClient();
+        for (const orderId of ordersToComplete) {
+          await supabase
+            .from('orders')
+            .update({ status: 'completed' })
+            .eq('id', orderId);
+        }
+        // Refresh orders to show updated status
+        if (phone.trim()) {
+          await fetchOrders(phone);
+        }
+      }
     };
 
     // Calculate immediately
@@ -162,7 +181,7 @@ export default function OrdersPage() {
     const interval = setInterval(updateCountdowns, 1000);
 
     return () => clearInterval(interval);
-  }, [orders]);
+  }, [orders, phone]);
 
   // Poll orders every 10 seconds to refresh status
   useEffect(() => {

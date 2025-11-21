@@ -27,7 +27,11 @@ export default function OrderStatusPage() {
   const [countdown, setCountdown] = useState<string>('');
 
   // Fetch order data
-  const fetchOrder = async () => {
+  const fetchOrder = async (isInitialLoad = false) => {
+    if (isInitialLoad) {
+      setLoading(true);
+    }
+
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
@@ -53,63 +57,59 @@ export default function OrderStatusPage() {
       setItems(itemsData);
     }
 
-    setLoading(false);
+    if (isInitialLoad) {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     if (!orderId) return;
 
-    const supabase = getSupabaseClient();
+    // Initial fetch with loading state
+    fetchOrder(true);
 
-    // Initial fetch
-    fetchOrder();
-
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel(`order-${orderId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'orders',
-          filter: `id=eq.${orderId}`,
-        },
-        (payload: any) => {
-          setOrder(payload.new);
-        }
-      )
-      .subscribe();
-
-    // Polling every 10 seconds as fallback (as per requirements)
+    // Poll every 5 seconds for updates (without page reload)
     const pollInterval = setInterval(() => {
-      fetchOrder();
-    }, 10000);
+      fetchOrder(false);
+    }, 5000);
 
     return () => {
-      subscription.unsubscribe();
       clearInterval(pollInterval);
     };
   }, [orderId]);
 
-  // Calculate countdown from preparation_time
+  // Calculate countdown from preparation_time (only starts after approval)
   useEffect(() => {
     if (!order || order.status !== 'approved' || !order.preparation_time) {
       setCountdown('');
       return;
     }
 
-    const calculateCountdown = () => {
+    const calculateCountdown = async () => {
       const now = new Date();
-      const created = new Date(order.created_at);
-      // Add preparation_time (in minutes) to created_at
+      // Use updated_at as the approval time (when order was approved)
+      const approvedAt = new Date(order.updated_at);
+      // Add preparation_time (in minutes) to approval time
       const readyTime = new Date(
-        created.getTime() + order.preparation_time * 60 * 1000
+        approvedAt.getTime() + order.preparation_time * 60 * 1000
       );
       const diff = readyTime.getTime() - now.getTime();
 
       if (diff <= 0) {
-        setCountdown('Order should be ready now!');
+        // Time is up - auto-mark as completed
+        setCountdown('Order ready! Marking as completed...');
+        
+        // Auto-complete the order when time is up
+        const supabase = getSupabaseClient();
+        const { error: updateError } = await supabase
+          .from('orders')
+          .update({ status: 'completed' })
+          .eq('id', orderId);
+        
+        if (!updateError) {
+          // Refresh order data to show completed status
+          await fetchOrder();
+        }
       } else {
         const minutes = Math.floor(diff / 60000);
         const seconds = Math.floor((diff % 60000) / 1000);
@@ -124,7 +124,7 @@ export default function OrderStatusPage() {
     const interval = setInterval(calculateCountdown, 1000);
 
     return () => clearInterval(interval);
-  }, [order?.status, order?.preparation_time, order?.created_at]);
+  }, [order?.status, order?.preparation_time, order?.updated_at, orderId]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

@@ -166,18 +166,33 @@ export default function AdminOrdersPage() {
     );
   }
 
-  const activeOrders = orders.filter(
-    (o) => o.status === 'pending' || o.status === 'approved'
-  );
+  // Active orders: pending, approved, or recently completed (within last hour)
+  const activeOrders = orders.filter((o) => {
+    if (o.status === 'pending' || o.status === 'approved') {
+      return true;
+    }
+    // Also show recently completed orders (within last hour) so admin can see auto-completed ones
+    if (o.status === 'completed') {
+      const completedTime = new Date(o.updated_at);
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+      return completedTime > oneHourAgo;
+    }
+    return false;
+  });
 
-  // Get today's completed orders
+  // Get today's completed orders (excluding recently completed ones shown in active section)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
   const completedToday = orders.filter((o) => {
     if (o.status !== 'completed') return false;
     const orderDate = new Date(o.created_at);
     orderDate.setHours(0, 0, 0, 0);
-    return orderDate.getTime() === today.getTime();
+    const isToday = orderDate.getTime() === today.getTime();
+    const completedTime = new Date(o.updated_at);
+    // Only show in accordion if completed more than 1 hour ago
+    const isOldCompleted = completedTime <= oneHourAgo;
+    return isToday && isOldCompleted;
   });
 
   return (
@@ -278,12 +293,33 @@ export default function AdminOrdersPage() {
                         </div>
                       )}
                       <Button
-                        onClick={() => updateOrderStatus(order.id, 'completed')}
+                        onClick={() => {
+                          updateOrderStatus(order.id, 'completed');
+                          // Refresh orders after marking as completed to see it in completed section
+                          setTimeout(() => fetchOrders(), 500);
+                        }}
                         className="w-full"
                       >
                         <CheckCircle2 className="h-4 w-4 mr-2" />
                         Mark as Completed
                       </Button>
+                    </div>
+                  )}
+
+                  {order.status === 'completed' && (
+                    <div className="space-y-3 border-t pt-4">
+                      <div className="flex items-center gap-2 text-sm text-primary">
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>Order completed</span>
+                      </div>
+                      {order.preparation_time && (
+                        <p className="text-xs text-muted-foreground">
+                          Preparation time: {order.preparation_time} minutes
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground">
+                        Completed at: {new Date(order.updated_at).toLocaleString()}
+                      </p>
                     </div>
                   )}
                 </CardContent>
