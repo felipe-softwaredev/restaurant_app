@@ -43,8 +43,20 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center px-4">
-      <Card className="w-full max-w-md">
+    <main className="min-h-screen bg-background flex flex-col items-center px-4 py-8">
+      <Link href="/" className="mb-8 self-start">
+        <Button variant="ghost" size="sm" className="gap-2">
+          ← Back to home
+        </Button>
+      </Link>
+      <div className="flex flex-1 flex-col items-center justify-center">
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center">
+          <p className="text-muted-foreground">
+            Manage orders, inventory, and menu from the admin dashboard.
+          </p>
+        </div>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Admin Login</CardTitle>
         </CardHeader>
@@ -82,6 +94,8 @@ export default function AdminLoginPage() {
           </form>
         </CardContent>
       </Card>
+      </div>
+      </div>
     </main>
   )
 }

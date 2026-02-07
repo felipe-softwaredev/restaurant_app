@@ -173,7 +173,7 @@ export default function OrderStatusPage() {
     return (
       <main className="min-h-screen bg-background">
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <Card>
+          <Card className="border-primary/10 shadow-md">
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground">Order not found</p>
               <Link href="/" className="mt-4 inline-block">
@@ -189,21 +189,16 @@ export default function OrderStatusPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <Link href="/">
-            <Button variant="ghost" size="sm">
-              Back Home
-            </Button>
-          </Link>
+        <div className="mb-8">
           <Link href="/orders">
-            <Button variant="outline" size="sm" className="bg-transparent">
-              My Orders
+            <Button variant="ghost" size="sm">
+              ← My Orders
             </Button>
           </Link>
         </div>
 
         <div className="space-y-6">
-          <Card>
+          <Card className="border-primary/10 shadow-md">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>
