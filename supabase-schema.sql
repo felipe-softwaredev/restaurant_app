@@ -310,55 +310,55 @@ CREATE TRIGGER trigger_deduct_inventory_on_order_completion
 -- SAMPLE DATA
 -- ============================================================================
 
--- Sample Menu Items
+-- Sample Menu Items (image_url points to public/pictures/menu/)
 INSERT INTO menu_items (name, description, price, category, image_url, is_available, is_on_menu) VALUES
 -- Appetizers
-('Bruschetta Trio', 'Three types of bruschetta: classic tomato basil, goat cheese honey, and pesto mozzarella', 12.99, 'Appetizers', 'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=800&h=600&fit=crop', true, true),
-('Crispy Calamari', 'Golden fried calamari rings served with marinara sauce and lemon aioli', 14.99, 'Appetizers', 'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=800&h=600&fit=crop', true, true),
-('Spinach Artichoke Dip', 'Creamy blend of spinach and artichoke hearts, baked with parmesan and served with tortilla chips', 11.99, 'Appetizers', 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop', true, true),
+('Bruschetta Trio', 'Three types of bruschetta: classic tomato basil, goat cheese honey, and pesto mozzarella', 12.99, 'Appetizers', '/pictures/menu/bruschettatrio.jpg', true, true),
+('Crispy Calamari', 'Golden fried calamari rings served with marinara sauce and lemon aioli', 14.99, 'Appetizers', '/pictures/menu/crispycalamari.jpg', true, true),
+('Spinach Artichoke Dip', 'Creamy blend of spinach and artichoke hearts, baked with parmesan and served with tortilla chips', 11.99, 'Appetizers', '/pictures/menu/spinachartichokedip.jpg', true, true),
 
 -- Main Courses
-('Grilled Salmon', 'Atlantic salmon grilled to perfection, served with roasted vegetables and lemon butter sauce', 24.99, 'Main Course', 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop', true, true),
-('Ribeye Steak', '12oz prime ribeye steak, char-grilled and served with garlic mashed potatoes and seasonal vegetables', 32.99, 'Main Course', 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop', true, true),
-('Chicken Parmesan', 'Breaded chicken breast topped with marinara sauce and mozzarella, served over linguine', 19.99, 'Main Course', 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop', true, true),
-('Margherita Pizza', 'Classic pizza with fresh mozzarella, tomato sauce, and basil leaves on our house-made dough', 16.99, 'Main Course', 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&h=600&fit=crop', true, true),
-('Pasta Carbonara', 'Creamy pasta with pancetta, parmesan cheese, egg yolk, and black pepper', 18.99, 'Main Course', 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&h=600&fit=crop', true, true),
+('Grilled Salmon', 'Atlantic salmon grilled to perfection, served with roasted vegetables and lemon butter sauce', 24.99, 'Main Course', '/pictures/menu/grilledsalmon.avif', true, true),
+('Ribeye Steak', '12oz prime ribeye steak, char-grilled and served with garlic mashed potatoes and seasonal vegetables', 32.99, 'Main Course', '/pictures/menu/ribeyesteak.jpg', true, true),
+('Chicken Parmesan', 'Breaded chicken breast topped with marinara sauce and mozzarella, served over linguine', 19.99, 'Main Course', '/pictures/menu/chickenparmesan.webp', true, true),
+('Margherita Pizza', 'Classic pizza with fresh mozzarella, tomato sauce, and basil leaves on our house-made dough', 16.99, 'Main Course', '/pictures/menu/margheritapizza.jpeg', true, true),
+('Pasta Carbonara', 'Creamy pasta with pancetta, parmesan cheese, egg yolk, and black pepper', 18.99, 'Main Course', '/pictures/menu/pastacarbonara.jpeg', true, true),
 
 -- Salads
-('Caesar Salad', 'Crisp romaine lettuce with caesar dressing, parmesan cheese, and house-made croutons', 10.99, 'Salads', 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop', true, true),
-('Greek Salad', 'Mixed greens with feta cheese, kalamata olives, cucumbers, tomatoes, and red onion with greek dressing', 11.99, 'Salads', 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop', true, true),
+('Caesar Salad', 'Crisp romaine lettuce with caesar dressing, parmesan cheese, and house-made croutons', 10.99, 'Salads', '/pictures/menu/caesarsalad.jpg', true, true),
+('Greek Salad', 'Mixed greens with feta cheese, kalamata olives, cucumbers, tomatoes, and red onion with greek dressing', 11.99, 'Salads', '/pictures/menu/greeksalad.jpg', true, true),
 
 -- Desserts
-('Chocolate Lava Cake', 'Warm chocolate cake with a molten center, served with vanilla ice cream', 8.99, 'Desserts', 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&h=600&fit=crop', true, true),
-('Tiramisu', 'Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream', 7.99, 'Desserts', 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&h=600&fit=crop', true, true),
-('New York Cheesecake', 'Creamy cheesecake with a graham cracker crust, topped with fresh berries', 8.99, 'Desserts', 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&h=600&fit=crop', true, true),
+('Chocolate Lava Cake', 'Warm chocolate cake with a molten center, served with vanilla ice cream', 8.99, 'Desserts', '/pictures/menu/chocolatelavacake.jpg', true, true),
+('Tiramisu', 'Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream', 7.99, 'Desserts', '/pictures/menu/tiramisu.avif', true, true),
+('New York Cheesecake', 'Creamy cheesecake with a graham cracker crust, topped with fresh berries', 8.99, 'Desserts', '/pictures/menu/newyorkcheesecake.webp', true, true),
 
 -- Beverages
-('Fresh Lemonade', 'House-made lemonade with fresh lemons, mint, and a hint of honey', 4.99, 'Beverages', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop', true, true),
-('Iced Coffee', 'Cold brew coffee served over ice with your choice of milk and sweetener', 4.49, 'Beverages', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop', true, true),
-('Fresh Orange Juice', 'Freshly squeezed orange juice served chilled', 3.99, 'Beverages', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop', true, true);
+('Fresh Lemonade', 'House-made lemonade with fresh lemons, mint, and a hint of honey', 4.99, 'Beverages', '/pictures/menu/freshlemonade.webp', true, true),
+('Iced Coffee', 'Cold brew coffee served over ice with your choice of milk and sweetener', 4.49, 'Beverages', '/pictures/menu/icedcoffee.jpg', true, true),
+('Fresh Orange Juice', 'Freshly squeezed orange juice served chilled', 3.99, 'Beverages', '/pictures/menu/freshorangejuice.jpg', true, true);
 
--- Sample Inventory Items
+-- Sample Inventory Items (image_url points to public/pictures/ingredients/)
 INSERT INTO inventory_items (name, image_url, quantity, unit, min_stock) VALUES
-('Mozzarella Cheese', 'https://images.unsplash.com/photo-1618164436269-1f6452e4f8c5?w=800&h=600&fit=crop', 50.0, 'lbs', 10.0),
-('Pizza Dough', 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=600&fit=crop', 30.0, 'lbs', 5.0),
-('Tomatoes', 'https://images.unsplash.com/photo-1546093837427-8e0e97eb5a5c?w=800&h=600&fit=crop', 25.0, 'lbs', 5.0),
-('Fresh Basil', 'https://images.unsplash.com/photo-1618375569909-a6f539b86d40?w=800&h=600&fit=crop', 5.0, 'lbs', 1.0),
-('Salmon Fillet', 'https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=800&h=600&fit=crop', 20.0, 'lbs', 5.0),
-('Ribeye Steak', 'https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=600&fit=crop', 30.0, 'lbs', 10.0),
-('Chicken Breast', 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=800&h=600&fit=crop', 25.0, 'lbs', 8.0),
-('Pasta', 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&h=600&fit=crop', 40.0, 'lbs', 10.0),
-('Pancetta', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=600&fit=crop', 15.0, 'lbs', 3.0),
-('Parmesan Cheese', 'https://images.unsplash.com/photo-1618164436269-1f6452e4f8c5?w=800&h=600&fit=crop', 20.0, 'lbs', 5.0),
-('Romaine Lettuce', 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=800&h=600&fit=crop', 15.0, 'lbs', 3.0),
-('Feta Cheese', 'https://images.unsplash.com/photo-1618164436269-1f6452e4f8c5?w=800&h=600&fit=crop', 12.0, 'lbs', 2.0),
-('Calamari', 'https://images.unsplash.com/photo-1572441713132-51c75654db73?w=800&h=600&fit=crop', 10.0, 'lbs', 2.0),
-('Spinach', 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&h=600&fit=crop', 8.0, 'lbs', 2.0),
-('Artichoke Hearts', 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop', 6.0, 'lbs', 1.0),
-('Chocolate', 'https://images.unsplash.com/photo-1606312619070-d48b4b2f3e1a?w=800&h=600&fit=crop', 20.0, 'lbs', 5.0),
-('Coffee Beans', 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&h=600&fit=crop', 30.0, 'lbs', 10.0),
-('Lemons', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop', 25.0, 'lbs', 5.0),
-('Oranges', 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&h=600&fit=crop', 30.0, 'lbs', 5.0);
+('Mozzarella Cheese', '/pictures/ingredients/mozzarellacheese.webp', 50.0, 'lbs', 10.0),
+('Pizza Dough', '/pictures/ingredients/pizzadough.jpg', 30.0, 'lbs', 5.0),
+('Tomatoes', '/pictures/ingredients/tomatoes.avif', 25.0, 'lbs', 5.0),
+('Fresh Basil', '/pictures/ingredients/freshbasil.webp', 5.0, 'lbs', 1.0),
+('Salmon Fillet', '/pictures/ingredients/salmonfillet.webp', 20.0, 'lbs', 5.0),
+('Ribeye Steak', '/pictures/ingredients/ribeyesteak.webp', 30.0, 'lbs', 10.0),
+('Chicken Breast', '/pictures/ingredients/chickenbreast.png', 25.0, 'lbs', 8.0),
+('Pasta', '/pictures/ingredients/pasta.jpg', 40.0, 'lbs', 10.0),
+('Pancetta', '/pictures/ingredients/pancetta.jpg', 15.0, 'lbs', 3.0),
+('Parmesan Cheese', '/pictures/ingredients/parmesancheese.avif', 20.0, 'lbs', 5.0),
+('Romaine Lettuce', '/pictures/ingredients/romainelettuce.jpg', 15.0, 'lbs', 3.0),
+('Feta Cheese', '/pictures/ingredients/fetacheese.webp', 12.0, 'lbs', 2.0),
+('Calamari', '/pictures/ingredients/calamari.jpeg', 10.0, 'lbs', 2.0),
+('Spinach', '/pictures/ingredients/spinach.jpeg', 8.0, 'lbs', 2.0),
+('Artichoke Hearts', '/pictures/ingredients/artichokehearts.jpg', 6.0, 'lbs', 1.0),
+('Chocolate', '/pictures/ingredients/chocolate.jpg', 20.0, 'lbs', 5.0),
+('Coffee Beans', '/pictures/ingredients/coffeebeans.jpg', 30.0, 'lbs', 10.0),
+('Lemons', '/pictures/ingredients/lemons.jpg', 25.0, 'lbs', 5.0),
+('Oranges', '/pictures/ingredients/oranges.jpg', 30.0, 'lbs', 5.0);
 
 -- Sample Menu Item Inventory Mappings
 -- Note: These use subqueries to find menu items and inventory items by name

@@ -7,6 +7,7 @@ import { getSupabaseClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 import Link from "next/link"
 import type { InventoryItem } from "@/types"
 
@@ -198,11 +199,28 @@ export default function AdminInventoryPage() {
           {items.map((item) => (
             <Card key={item.id}>
               <CardContent className="flex items-center justify-between py-4">
-                <div className="flex-1">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {item.quantity} {item.unit} (Min: {item.min_stock})
-                  </p>
+                <div className="flex items-center gap-4 flex-1">
+                  {item.image_url ? (
+                    <div className="relative w-16 h-16 shrink-0 rounded-md overflow-hidden bg-muted">
+                      <Image
+                        src={item.image_url}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 shrink-0 rounded-md bg-muted flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground">No img</span>
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {item.quantity} {item.unit} (Min: {item.min_stock})
+                    </p>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <Input
