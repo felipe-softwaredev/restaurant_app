@@ -174,36 +174,36 @@ export default function CartPage() {
     <main className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <Link href="/menu">
+          <Link href="/#menu">
             <Button variant="ghost" size="sm">
-              Back to Menu
+              ← Back to Menu
             </Button>
           </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/orders">
-              <Button variant="outline" size="sm" className="bg-transparent">
-                My Orders
-              </Button>
-            </Link>
-            <CartButton />
-          </div>
         </div>
 
-        <h1 className="text-3xl font-bold text-foreground mb-8">
-          Shopping Cart
-        </h1>
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold text-foreground md:text-4xl">
+            Your Order
+          </h1>
+          <p className="mt-1 text-muted-foreground">
+            Almost there—add your details and we&apos;ll get it ready.
+          </p>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {cart.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <p className="text-muted-foreground">Your cart is empty</p>
+              <Card className="border-primary/10 shadow-md">
+                <CardContent className="py-16 text-center">
+                  <p className="text-muted-foreground">Your order is empty</p>
+                  <Link href="/#menu" className="mt-4 inline-block">
+                    <Button>Browse Menu</Button>
+                  </Link>
                 </CardContent>
               </Card>
             ) : (
               cart.map((item) => (
-                <Card key={item.id}>
+                <Card key={item.id} className="border-primary/10 shadow-sm transition-shadow hover:shadow-md">
                   <CardContent className="flex items-center justify-between py-4">
                     <div className="flex-1">
                       <h3 className="font-semibold">{item.name}</h3>
@@ -242,8 +242,8 @@ export default function CartPage() {
           </div>
 
           <div>
-            <Card className="sticky top-8">
-              <CardHeader>
+            <Card className="sticky top-8 border-primary/10 shadow-lg">
+              <CardHeader className="bg-primary/5">
                 <CardTitle>Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -289,6 +289,7 @@ export default function CartPage() {
                   <Button
                     type="submit"
                     className="w-full"
+                    size="lg"
                     disabled={loading || cart.length === 0}
                   >
                     {loading ? 'Placing Order...' : 'Place Order'}

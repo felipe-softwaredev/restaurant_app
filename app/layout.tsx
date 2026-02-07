@@ -4,13 +4,14 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import { ToastProvider } from '@/components/toast-provider';
+import CustomerShell from '@/components/customer-shell';
 
 const _geist = Geist({ subsets: ['latin'] });
 const _geistMono = Geist_Mono({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Restaurant App',
-  description: 'Restaurant ordering app demo',
+  title: 'Bella Tavola - Order Food Online',
+  description: 'Fresh ingredients, made to order. Order online and pick up when it\'s ready.',
   generator: '',
   icons: {
     icon: [
@@ -39,7 +40,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased`}>
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          <CustomerShell>{children}</CustomerShell>
+        </ToastProvider>
         <Analytics />
       </body>
     </html>

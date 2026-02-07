@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -27,7 +28,8 @@ interface OrderWithItems extends Order {
   }>;
 }
 
-export default function OrdersPage() {
+function OrdersPageContent() {
+  const searchParams = useSearchParams();
   const [phone, setPhone] = useState('');
   const [orders, setOrders] = useState<OrderWithItems[]>([]);
   const [loading, setLoading] = useState(false);
@@ -123,6 +125,15 @@ export default function OrdersPage() {
     e.preventDefault();
     fetchOrders(phone);
   };
+
+  // Auto-search when ?phone= is in URL (from My Orders floating card)
+  useEffect(() => {
+    const phoneParam = searchParams?.get('phone');
+    if (phoneParam?.trim()) {
+      setPhone(phoneParam.trim());
+      fetchOrders(phoneParam.trim());
+    }
+  }, []);
 
   // Calculate countdown for approved orders (only starts after approval)
   useEffect(() => {
@@ -232,24 +243,18 @@ export default function OrdersPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link href="/">
-          <Button variant="ghost" size="sm" className="mb-8">
-            Back Home
-          </Button>
-        </Link>
-
         <div className="space-y-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">
+            <h1 className="text-3xl font-bold text-foreground md:text-4xl mb-2">
               My Orders
             </h1>
             <p className="text-muted-foreground">
-              Enter your phone number to view your orders
+              Enter your phone number to view your order status
             </p>
           </div>
 
-          <Card>
-            <CardHeader>
+          <Card className="border-primary/10 shadow-md">
+            <CardHeader className="bg-primary/5">
               <CardTitle>Lookup Orders</CardTitle>
             </CardHeader>
             <CardContent>
@@ -286,7 +291,7 @@ export default function OrdersPage() {
           {searched && !loading && (
             <div>
               {orders.length === 0 ? (
-                <Card>
+                <Card className="border-primary/10 shadow-md">
                   <CardContent className="py-12 text-center">
                     <p className="text-muted-foreground mb-2">
                       No orders found for this phone number.
@@ -305,7 +310,7 @@ export default function OrdersPage() {
                   {orders.map((order) => (
                     <Card
                       key={order.id}
-                      className="hover:shadow-lg transition-shadow"
+                      className="border-primary/10 shadow-sm transition-all hover:shadow-md"
                     >
                       <CardHeader>
                         <div className="flex items-start justify-between">
@@ -392,5 +397,19 @@ export default function OrdersPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-background">
+        <div className="mx-auto max-w-4xl px-4 py-8">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </main>
+    }>
+      <OrdersPageContent />
+    </Suspense>
   );
 }

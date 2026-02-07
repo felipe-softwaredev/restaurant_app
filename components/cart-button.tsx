@@ -40,7 +40,7 @@ export default function CartButton() {
 
   return (
     <Link href="/cart">
-      <Button variant="outline" className="relative bg-transparent">
+      <Button variant="outline" className="relative border-primary/30 hover:bg-primary/5 hover:border-primary/50">
         Cart
         {cartCount > 0 && (
           <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
