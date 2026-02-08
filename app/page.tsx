@@ -98,7 +98,7 @@ export default function Home() {
       {/* Hero */}
       <div className="relative h-[40vh] min-h-[280px] w-full overflow-hidden">
         <Image
-          src="/pictures/menu/margheritapizza.jpeg"
+          src="/banner.jpg"
           alt="Fresh restaurant food"
           fill
           className="object-cover"
@@ -110,7 +110,8 @@ export default function Home() {
             Bella Tavola
           </h1>
           <p className="mt-3 max-w-lg text-lg text-white/95 md:text-xl">
-            Fresh ingredients, made to order. Order online and pick up when it&apos;s ready.
+            Fresh ingredients, made to order. Order online and pick up when
+            it&apos;s ready.
           </p>
         </div>
       </div>
@@ -130,10 +131,13 @@ export default function Home() {
           </div>
         ) : error ? (
           <div className="rounded-lg border border-destructive bg-destructive/10 p-6">
-            <h3 className="mb-2 font-semibold text-destructive">Setup Required</h3>
+            <h3 className="mb-2 font-semibold text-destructive">
+              Setup Required
+            </h3>
             <p className="mb-4 text-sm text-destructive">{error}</p>
             <p className="text-sm text-muted-foreground">
-              Please add your Supabase environment variables and run the SQL schema on your Supabase dashboard.
+              Please add your Supabase environment variables and run the SQL
+              schema on your Supabase dashboard.
             </p>
           </div>
         ) : (
@@ -142,7 +146,11 @@ export default function Home() {
               <div className="mb-10 flex flex-wrap gap-2">
                 <Button
                   variant={selectedCategory === null ? 'default' : 'outline'}
-                  className={selectedCategory === null ? '' : 'border-primary/30 hover:border-primary/50 hover:bg-primary/5'}
+                  className={
+                    selectedCategory === null
+                      ? ''
+                      : 'border-primary/30 hover:border-primary/50 hover:bg-primary/5'
+                  }
                   onClick={() => setSelectedCategory(null)}
                 >
                   All
@@ -150,8 +158,14 @@ export default function Home() {
                 {categories.map((category) => (
                   <Button
                     key={category}
-                    variant={selectedCategory === category ? 'default' : 'outline'}
-                    className={selectedCategory === category ? '' : 'border-primary/30 hover:border-primary/50 hover:bg-primary/5'}
+                    variant={
+                      selectedCategory === category ? 'default' : 'outline'
+                    }
+                    className={
+                      selectedCategory === category
+                        ? ''
+                        : 'border-primary/30 hover:border-primary/50 hover:bg-primary/5'
+                    }
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category}
@@ -200,7 +214,11 @@ export default function Home() {
                     </div>
                   )}
                   <CardHeader className="pb-2">
-                    <CardTitle className={!item.is_available ? 'text-muted-foreground' : ''}>
+                    <CardTitle
+                      className={
+                        !item.is_available ? 'text-muted-foreground' : ''
+                      }
+                    >
                       {item.name}
                     </CardTitle>
                   </CardHeader>
@@ -209,7 +227,13 @@ export default function Home() {
                       {item.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <p className={`text-xl font-bold ${!item.is_available ? 'text-muted-foreground' : 'text-primary'}`}>
+                      <p
+                        className={`text-xl font-bold ${
+                          !item.is_available
+                            ? 'text-muted-foreground'
+                            : 'text-primary'
+                        }`}
+                      >
                         ${item.price.toFixed(2)}
                       </p>
                       <Button
@@ -227,7 +251,9 @@ export default function Home() {
 
             {filteredItems.length === 0 && (
               <div className="py-12 text-center">
-                <p className="text-muted-foreground">No items in this category</p>
+                <p className="text-muted-foreground">
+                  No items in this category
+                </p>
               </div>
             )}
           </>
